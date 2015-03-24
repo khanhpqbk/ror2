@@ -29,7 +29,6 @@ class UsersController < ApplicationController
 
     	if @user.save
 	#handle
-		redirect_to @user
 	else
 		render 'new'
 	end
