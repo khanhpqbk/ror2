@@ -8,9 +8,8 @@
 	<%= render 'layouts/shim'%>
 </head>
 <body>
-	<div class="header">
+
   <%= render 'layouts/header'  %>
-	</div>
   <div class="container">
 	<h1>Bi che lap boi header</h1>
 	<% flash.each do |msg_type, msg| %>
@@ -19,8 +18,7 @@
 	</div>
 	<% end %>
     <%= yield %>
-	<%= render 'layouts/footer' %>
+    <%= render 'layouts/footer' %>
   </div>
-
 </body>
 </html>
