@@ -12,6 +12,12 @@
   <%= render 'layouts/header'  %>
 	</div>
   <div class="container">
+	<h1>Bi che lap boi header</h1>
+	<% flash.each do |msg_type, msg| %>
+	<div class="alert alert-<%= msg_type  %>">
+		<%= msg  %>
+	</div>
+	<% end %>
     <%= yield %>
 	<%= render 'layouts/footer' %>
   </div>

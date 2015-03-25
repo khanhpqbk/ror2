@@ -29,6 +29,7 @@ class UsersController < ApplicationController
 
     	if @user.save
 	#handle
+		flash[:success] = "Welcome to the ror app!"
 		redirect_to @user
 	else
 		render 'new'
