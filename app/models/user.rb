@@ -5,7 +5,8 @@ class User < ActiveRecord::Base
   validates :email, presence: true
 
   has_secure_password
-  validates :password, length: {minimum: 6}
+  # KhanhPQ: allow_blank: true to edit only name/email (not edit pass => pass: blank)
+  validates :password, length: {minimum: 6}, allow_blank: true
 
   def User.digest(string)
     cost = ActiveModel::SecurePassword.min_cost ? BCrypt::Engine::MIN_COST : BCrypt::Engine.cost

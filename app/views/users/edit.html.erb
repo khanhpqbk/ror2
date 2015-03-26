@@ -1,6 +1,24 @@
 <h1>Editing User</h1>
+<%= form_for(@user) do |f| %>
 
-<%= render 'form' %>
+<%= render 'shared/error_messages'  %>
+
+<%= f.label :name %>
+<%= f.text_field :name, class: 'form-control' %> <br>
+
+<%= f.label :email %>
+<%= f.text_field :email, class: 'form-control' %> <br>
+
+<%= f.label :password %>
+<%= f.password_field :password, class: 'form-control' %> <br>
+
+<%= f.label :password_confirmation, "Confirmation" %>
+<%= f.password_field :password_confirmation, class: 'form-control' %> <br>
+
+<%= f.submit "Save changes", class: "btn btn-primary"  %>
+
+
+<% end %>
 
 <%= link_to 'Show', @user %> |
 <%= link_to 'Back', users_path %>

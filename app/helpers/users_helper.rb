@@ -8,4 +8,8 @@ module UsersHelper
   def User.new_token
     SecureRandom.urlsafe_base64
   end
+
+  def current_user?(user)
+    user == current_user
+  end
 end
