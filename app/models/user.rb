@@ -1,5 +1,7 @@
 class User < ActiveRecord::Base
-  attr_accessor :remember_token
+  attr_accessor :remember_token, :activation_token, :reset_token
+  before_create :create_activation_digest
+
   has_many :micropost
   validates :name, presence: true
   validates :email, presence: true
@@ -19,13 +21,43 @@ class User < ActiveRecord::Base
   end
 
   # KhanhPQ: one of two subtle bugs(other is inside session controller)
-  # before: not have the 1st line
-  def authenticated?(remember_token)
+  # before: not have "false if ..." line
+  # two parameter : metaprogramming, to support remember_token, password_token, activation_token,
+  def authenticated?(attribute, token)
+    digest = send("#{attribute}_digest")
     false if remember_digest.nil?
-    BCrypt::Password.new(remember_digest).is_password?(remember_token)
+    BCrypt::Password.new(digest).is_password?(token)
   end
 
   def forget
     update_attribute(:remember_digest, nil)
+  end
+
+  def create_activation_digest
+    self.activation_token = User.new_token
+    self.activation_digest = User.digest(activation_token)
+
+  end
+
+
+
+  def activate
+    update_attribute(:activated, true)
+    update_attribute(:activate_at, Time.zone.now)
+  end
+
+  def create_reset_digest
+    self.reset_token = User.new_token
+    update_attribute(:reset_digest, User.digest(reset_token))
+    update_attribute(:reset_sent_at, Time.zone.now)
+
+  end
+
+  def send_password_reset_email
+    UserMailer.password_reset(self).deliver_now
+  end
+
+  def password_reset_expired?
+    reset_sent_at < 2.hours.ago
   end
 end

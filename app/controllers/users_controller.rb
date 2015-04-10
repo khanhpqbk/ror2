@@ -33,9 +33,13 @@ class UsersController < ApplicationController
 
     if @user.save
 	#handle
-      log_in @user
-      flash[:success] = "Welcome to the ror app!"
-      redirect_to @user
+      # log_in @user
+      # flash[:success] = "Welcome to the ror app!"
+       UserMailer.account_activation(@user).deliver_now
+      # @user.send_activation_email
+      flash[:info] = "Please check your email to activate your account!"
+      redirect_to root_url
+      # @user
     else
       render 'new'
     end
