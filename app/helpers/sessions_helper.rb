@@ -54,4 +54,15 @@ module SessionsHelper
   def store_location
     session[:forwarding_url] = request.url if request.get?
   end
+
+
+  def current_user?(user)
+    user == current_user
+  end
+
+  def correct_user
+      @micropost = current_user.microposts.find_by(id: params[:id])
+      redirect_to root_url if @micropost.nil?
+
+  end
 end
